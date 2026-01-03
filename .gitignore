@@ -1,0 +1,37 @@
+# --- General / OS ---
+.DS_Store
+Thumbs.db
+*.log
+
+# --- Dependencies (Recursive) ---
+# Ignores node_modules in both frontend and backend folders
+**/node_modules/
+**/.pnp
+**/.pnp.js
+
+# --- Vite / Frontend Specific ---
+**/dist/
+**/dist-ssr/
+**/.vite/
+
+# --- Anchor / Solana Specific ---
+**/target/
+**/.anchor/
+**/test-ledger/
+**/*.rs.bk
+
+# --- Environment and Secrets ---
+# Never commit these as they contain sensitive keys
+.env
+.env*.local
+**/.env
+**/.env*.local
+
+# --- IDE / Editor ---
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

@@ -1,0 +1,127 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #12151c;
+  color: #fff;
+}
+
+/* App layout */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  height: 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 24px;
+  background: #1a1f2b;
+}
+
+.wallet-btn {
+  background: #2b2f3a;
+  color: #fff;
+  border: 1px solid #3a3f4f;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* Main content */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px;
+  gap: 40px;
+}
+
+/* Card */
+.card {
+  background: #1e2433;
+  width: 100%;
+  max-width: 420px;
+  padding: 28px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.card h2 {
+  margin-bottom: 16px;
+}
+
+.pot,
+.winner {
+  margin: 10px 0;
+  color: #cbd5f5;
+}
+
+.pot span,
+.winner span {
+  color: #ff5c5c;
+  font-weight: bold;
+}
+
+/* Buttons */
+.action-btn {
+  width: 100%;
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid #ff5c5c;
+  color: #ff5c5c;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+
+.action-btn:hover {
+  background: #ff5c5c;
+  color: #12151c;
+}
+
+/* Table */
+.table-wrapper {
+  width: 100%;
+  max-width: 900px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #1e2433;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: left;
+}
+
+thead {
+  background: #2a3042;
+}
+
+tbody tr:not(:last-child) {
+  border-bottom: 1px solid #2f3650;
+}
