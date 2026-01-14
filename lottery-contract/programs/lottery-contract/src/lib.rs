@@ -18,8 +18,25 @@ pub mod lottery_contract {
         Ok(())
     }
 
-    pub fn create_lottery(ctx: Context<CreateLottery>) -> Result<()>{
+    pub fn create_lottery(ctx: Context<CreateLottery>, ticket_price: u64, max_tickets: u32) -> Result<()>{
+        let master = &mut ctx.accounts.master;
+        let lottery = &mut ctx.accounts.lottery;
 
+        master.last_id += 1;
+
+        lottery.id = master.last_id;
+        lottery.authority = *ctx.accounts.authority.key;
+        lottery.ticket_price = ticket_price;
+        lottery.max_tickets = max_tickets;
+        lottery.tickets_sold = 0;
+        lottery.prize_pool = 0;
+        lottery.is_active = true;
+        lottery.winner_id = None;
+        lottery.claimed = false;
+
+        msg!("Lottery: {} created by: {} ticket_price: {} max_tickets: {}", lottery.id, lottery.authority, lottery.ticket_price, lottery.max_tickets);
+
+        Ok(())
     }
 }
 
@@ -56,7 +73,7 @@ pub struct CreateLottery<'info> {
         bump
     )]
     pub lottery: Account<'info, Lottery>,
-    #[account(mut)]
+    #[account(mut, seeds = [MASTER_SEED], bump)]
     pub master: Account<'info, Master>,
     #[account(mut)]
     pub authority: Signer<'info>,
