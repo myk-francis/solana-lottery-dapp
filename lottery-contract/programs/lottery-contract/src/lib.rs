@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 mod constants;
 use constants::*;
 
-declare_id!("2X4c4bynxsEGVHMJTtPauRa8RRxbjw7PugorBYw8KWZo");
+declare_id!("byZRyLeRpJZNEmHA1FgdsfYu77VC1NJ9GBbm9yLANUg");
 
 #[program]
 pub mod lottery_contract {
