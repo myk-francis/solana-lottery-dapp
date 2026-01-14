@@ -6,6 +6,7 @@ use anchor_lang::{
 mod constants;
 use constants::MASTER_SEED;
 use constants::LOTTERY_SEED;
+use constants::TICKET_SEED;
 
 declare_id!("2X4c4bynxsEGVHMJTtPauRa8RRxbjw7PugorBYw8KWZo");
 
@@ -19,12 +20,14 @@ pub mod lottery_contract {
     }
 
     pub fn create_lottery(ctx: Context<CreateLottery>, ticket_price: u64, max_tickets: u32) -> Result<()>{
+
         let master = &mut ctx.accounts.master;
         let lottery = &mut ctx.accounts.lottery;
 
         master.last_id += 1;
 
         lottery.id = master.last_id;
+        lottery.last_ticket_id = 0;
         lottery.authority = *ctx.accounts.authority.key;
         lottery.ticket_price = ticket_price;
         lottery.max_tickets = max_tickets;
@@ -36,6 +39,10 @@ pub mod lottery_contract {
 
         msg!("Lottery: {} created by: {} ticket_price: {} max_tickets: {}", lottery.id, lottery.authority, lottery.ticket_price, lottery.max_tickets);
 
+        Ok(())
+    }
+
+    pub fn buy_ticket(ctx: Context<BuyTicket>, lottery_id: u32) -> Result<()> {
         Ok(())
     }
 }
@@ -87,8 +94,33 @@ pub struct Lottery {
     pub ticket_price: u64,
     pub max_tickets: u32,
     pub tickets_sold: u32,
+    pub last_ticket_id: u32,
     pub prize_pool: u64,
     pub is_active: bool,
     pub winner_id: Option<u32>,
     pub claimed: bool,
+}
+
+#[derive(Accounts)]
+#[instruction(lottery_id: u32)]
+pub struct BuyTicket<'info> {
+    #[account(mut, seeds = [LOTTERY_SEED, &[lottery_id as u8]], bump)]
+    pub lottery: Account<'info, Lottery>,
+    #[account(
+        init,
+        payer = buyer,
+        space = 8 + 4 + 32,
+        seeds = [TICKET_SEED, lottery.key().as_ref(), &[lottery.last_ticket_id as u8 + 1]],
+        bump
+    )]
+    pub ticket: Account<'info, Ticket>,
+    #[account(mut)]
+    pub buyer: Signer<'info>,
+    pub system_program: Program<'info, System>,
+}
+
+#[account]
+pub struct Ticket {
+    pub lottery_id: u32,
+    pub buyer: Pubkey,
 }
